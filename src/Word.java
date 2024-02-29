@@ -60,22 +60,33 @@ public class Word {
     // right shift this word by amount bits, creating a new Word
     public Word rightShift(int amount) {
         Word result = new Word();
-        //subtracts by i amount to shift
-        for (int i = amount; i < 32; i++) {
-            result.bits[i] = this.bits[i - amount];
+        for (int i = 0; i < 32; i++) {
+            if (i < 32 - amount) {
+                // Use the getValue() method to get the boolean value of the bit
+                result.bits[i].set(this.bits[i + amount].getValue());
+            } else {
+                // Explicitly set the remaining bits to false
+                result.bits[i].clear(); // Use the clear() method to set the bit to false
+            }
         }
         return result;
     }
 
-    // left shift this word by amount bits, creating a new Word
+
+    // Left shift this word by amount bits, creating a new Word
     public Word leftShift(int amount) {
         Word result = new Word();
-        for (int i = 0; i < 32 - amount; i++) {
-            //adds by i amount to shift
-            result.bits[i] = this.bits[i + amount];
+        for (int i = 0; i < 32; i++) {
+            if (i + amount < 32) {
+                result.bits[i + amount].set(this.bits[i].getValue());
+            }
         }
+        // No need to explicitly set the leftmost bits to false as the new Word is initialized with all bits as false
         return result;
     }
+
+
+
 
     // returns a comma separated string t’s and f’s
     @Override
@@ -103,14 +114,18 @@ public class Word {
     public int getSigned() {
         int signedValue = 0;
         for (int i = 0; i < 32; i++) {
-            signedValue += bits[i].getValue() ? (1 << i) : 0; //update signed value based on bit's value
-        }
-        // if MSB is set perform sign extension
-        if (bits[31].getValue()) {
-            signedValue |= Integer.MIN_VALUE;
+            if (bits[i].getValue()) {
+                if (i < 31) {
+                    signedValue |= (1 << i); // Set bit i
+                } else {
+                    // Directly handle the sign bit
+                    signedValue |= Integer.MIN_VALUE;
+                }
+            }
         }
         return signedValue;
     }
+
 
     // copies the values of the bits from another Word into this one
     public void copy(Word other) {
@@ -130,5 +145,32 @@ public class Word {
             }
         }
     }
+    public Word getWord() {
+        // Create a new Word object to store the binary string
+        Word word = new Word();
+
+        // Extract the bits from the Word object
+        for (int i = 0; i < 32; i++) {
+            // Set the bit value in the Word object based on the current bit in the bits array
+            word.setBit(i, new Bit(this.bits[i].getValue()));
+        }
+
+        return word;
+    }
+
+    public void increment() {
+        Bit carry = new Bit(true); // Start with carry of 1
+        for (int i = 0; i < 32; i++) {
+            Bit sum = bits[i].xor(carry); // Sum of bit and carry
+            carry = bits[i].and(carry); // carry is the AND of bit and prev carry
+            bits[i] = sum; // Update bit with the sum
+
+            if (!carry.getValue()) {
+                break; // When the carry is 0, we are done
+            }
+        }
+    }
+
+
 
 }

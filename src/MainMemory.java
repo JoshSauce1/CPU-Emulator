@@ -4,8 +4,8 @@ public class MainMemory {
 
     // memory initialization
     static {
-        for (int i = 0; i < 1024; i++) {
-            memory[i] = new Word();
+        for (int i = 0; i < memory.length; i++) {
+            memory[i] = new Word(); // Initialize each Word in memory
         }
     }
 
@@ -32,8 +32,10 @@ public class MainMemory {
                 boolean bitValue = data[i].charAt(bit) == '1';
                 memory[i].setBit(bit, new Bit(bitValue));
             }
+            System.out.println("Loaded at address " + i + ": " + memory[i]);
         }
     }
+
 
 
 }

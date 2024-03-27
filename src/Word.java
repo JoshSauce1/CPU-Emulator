@@ -171,6 +171,17 @@ public class Word {
         }
     }
 
+    // Method to convert the Word object to a binary string representation
+    public String toBinaryString() {
+        StringBuilder binaryString = new StringBuilder();
+        for (int i = 0; i < 32; i++) {
+            // Append '1' for true or '0' for false
+            binaryString.append(this.bits[i].getValue() ? '1' : '0');
+        }
+        return binaryString.toString();
+    }
+
+
 
 
 }

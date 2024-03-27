@@ -53,4 +53,58 @@ public class MainMemoryTest {
         Word actual = MainMemory.read(address);
         assertEquals(expected.toString(), actual.toString());
     }
+
+    @Test
+    public void testWriteAndVerifyMultipleValues() {
+        String[] valuesToWrite = {
+                "00000000000000000000000000000011",
+                "00000000000000000000000000000100"
+        };
+
+        for (int address = 2; address <= 3; address++) {
+            Word value = fromBinaryString(valuesToWrite[address - 2]);
+            Word addressWord = new Word();
+            addressWord.set(address);
+            MainMemory.write(addressWord, value);
+        }
+
+        for (int address = 2; address <= 3; address++) {
+            Word expected = fromBinaryString(valuesToWrite[address - 2]);
+            Word addressWord = new Word();
+            addressWord.set(address);
+            Word actual = MainMemory.read(addressWord);
+            assertEquals(expected.toString(), actual.toString());
+        }
+    }
+
+
+    @Test
+    public void testOverwriteValue() {
+        Word address = new Word();
+        address.set(1);
+        Word newValue = fromBinaryString("00000000000000000000000000001010");
+        MainMemory.write(address, newValue);
+
+        Word actual = MainMemory.read(address);
+        assertEquals(newValue.toString(), actual.toString());
+    }
+
+
+    @Test
+    public void testReadOutOfRange() {
+        // Test reading from an address out of range
+        Word address = new Word();
+        address.set(1024); // Out of range address
+        Word actualValue = MainMemory.read(address);
+        assertEquals(null, actualValue);
+    }
+
+    private Word fromBinaryString(String binaryString) {
+        Word word = new Word();
+        for (int i = 0; i < binaryString.length(); i++) {
+            word.setBit(i, new Bit(binaryString.charAt(i) == '1'));
+        }
+        return word;
+    }
+
 }

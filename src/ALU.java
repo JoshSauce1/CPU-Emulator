@@ -42,9 +42,11 @@ public class ALU {
         }
 
         else if (operationCode == 0b1110) { // add
+            System.out.println("Addition");
             result.copy(add(op1, op2));
         }
         else if (operationCode == 0b1111) { // subtract
+            System.out.println("Subtraction");
             result.copy(subtract(op1, op2));
         }
         else if (operationCode == 0b0111) { // multiply
@@ -52,7 +54,7 @@ public class ALU {
         }
         else {
             // Invalid operation code
-            throw new IllegalArgumentException("Could not recognize operation code");
+            System.out.println("Could not recognize operation code");
         }
 
     }
@@ -128,10 +130,6 @@ public class ALU {
         // Since we're ignoring overflow, no need to handle bits beyond 32.
         return result; // Return the computed result.
     }
-
-
-
-
 
 
 

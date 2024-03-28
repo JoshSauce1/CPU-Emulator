@@ -127,7 +127,7 @@ public class Word {
     }
 
 
-    // copies the values of the bits from another Word into this one
+    // copies the values of the bits from another Word into this one  j=9; j>=0; j--
     public void copy(Word other) {
         for (int i = 0; i < 32; i++) {
             this.bits[i].set(other.bits[i].getValue());

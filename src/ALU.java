@@ -4,36 +4,36 @@ public class ALU {
     Word op2 = new Word();
     Word result = new Word();
 
-    public void doOperation(Bit[] operation){
-        int operationCode = 0;
-        for (int i = 0; i < 4; i++) {
-            if (operation[i].getValue()) { // If bit is true
-                operationCode = (operationCode << 1) | 1;
-            }
-        }
+    public void doOperation(int operationCode){
+//        int operationCode = 0;
+//        for (int i = 0; i < 4; i++) {
+//            if (operation[i].getValue()) { // If bit is true
+//                operationCode = (operationCode << 1) | 1;
+//            }
+//        }
 
         // Determine the operation based on the operation code
-        if (operationCode == 0b1000) {
+        if (operationCode == 8) { //and 1000
             result.copy(op1.and(op2));
         }
-        else if (operationCode == 0b1001) { // or
+        else if (operationCode == 9) { // or 1001
             result.copy(op1.or(op2));
         }
-        else if (operationCode == 0b1010) { // xor
+        else if (operationCode == 10) { // xor 1010
             result.copy(op1.xor(op2));
         }
-        else if (operationCode == 0b1011) { // not
+        else if (operationCode == 11) { // not 1011
             result.copy(op1.not());
         }
         // Determine the operation based on the operation code
-        else if (operationCode == 0b1100) { // left shift
+        else if (operationCode == 12) { // left shift 1100
             // Extract the shift amount from op2 (ignore all but the lowest 5 bits)
             int shiftAmount = (int) (op2.getUnsigned() & 0b11111);
 
             // Perform left shift operation on op1
             result.copy(op1.leftShift(shiftAmount));
         }
-        else if (operationCode == 0b1101) { // right shift
+        else if (operationCode == 13) { // right shift 1101
             // Extract the shift amount from op2 (ignore all but the lowest 5 bits)
             int shiftAmount = (int) (op2.getUnsigned() & 0b11111);
 
@@ -41,15 +41,16 @@ public class ALU {
             result.copy(op1.rightShift(shiftAmount));
         }
 
-        else if (operationCode == 0b1110) { // add
+        else if (operationCode == 14) { // add 1110
             System.out.println("Addition");
             result.copy(add(op1, op2));
         }
-        else if (operationCode == 0b1111) { // subtract
+        else if (operationCode == 15) { // subtract 1111
             System.out.println("Subtraction");
             result.copy(subtract(op1, op2));
         }
-        else if (operationCode == 0b0111) { // multiply
+        else if (operationCode == 7) { // multiply 0111
+            System.out.println("Multiply");
             result.copy(multiply(op1, op2));
         }
         else {

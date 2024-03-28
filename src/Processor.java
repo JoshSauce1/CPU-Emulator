@@ -96,6 +96,7 @@ public class Processor {
 
                     // Copy the immediate value into the destination register
                     registers[details.rd].copy(immediateValueWord);
+                    System.out.println("details rd " + registers[details.rd]);
 
                     System.out.println("Copied immediate value " + details.immediate + " into register R" + details.rd);
                 }
@@ -106,22 +107,25 @@ public class Processor {
                 if (details.rs != null && details.rd != null) {
                     System.out.println("inside if");
                     // Copy values from source register and destination register to ALU operands
-                    alu.op1.copy(registers[details.rs]);
-                    System.out.println(registers[details.rs]);
-                    alu.op2.copy(registers[details.rd]); //
-                    System.out.println(registers[details.rd]);
-                    // Convert function code to Bit[] for the ALU operation
-                    Bit[] functionBits = new Bit[4];
-                    for (int i = 0; i < 4; i++) {
-                        functionBits[i] = new Bit((details.functionCode & (1 << i)) != 0);
-                    }
 
+                    int op1 = (int) registers[details.rs].getUnsigned();
+                    System.out.println("op1 value: " + op1);
+                    alu.op1.set(op1);
+
+                    int op2 = (int) registers[details.rd].getUnsigned();
+                    System.out.println("op2 value: " + op2);
+                    alu.op2.set(op2); //
+                    System.out.println("rd details: " + registers[details.rd]);
+
+                    System.out.println("functioncode: " + details.functionCode);
                     // Perform the ALU operation
-                    alu.doOperation(functionBits);
+                    alu.doOperation(details.functionCode);
 
+                    System.out.println("Math result: " + alu.result.getUnsigned());
+                    int result = (int) alu.result.getUnsigned();
                     // Store the result back into the destination register
-                    registers[details.rd].copy(alu.result);
-                    System.out.println(registers[details.rd]);
+                    registers[details.rd].set(result);
+                    System.out.println("final rd details: " + registers[details.rd]);
                 }
 
                 break;
@@ -129,20 +133,26 @@ public class Processor {
                 System.out.println("3R format execution.");
                 if (details.rs1 != null && details.rs2 != null && details.rd != null) {
                     // Copy values from source registers to ALU operands
-                    alu.op1.copy(registers[details.rs1]);
-                    alu.op2.copy(registers[details.rs2]);
 
-                    // Convert function code to Bit[] for the ALU operation
-                    Bit[] functionBits = new Bit[4];
-                    for (int i = 0; i < 4; i++) {
-                        functionBits[i] = new Bit((details.functionCode & (1 << i)) != 0);
-                    }
+                    int op1 = (int) registers[details.rs1].getUnsigned();
+                    System.out.println("op1 value: " + op1);
+                    int op2 = (int) registers[details.rs2].getUnsigned();
+                    System.out.println("op2 value: " + op2);
 
+                    alu.op1.set(op1);
+                    alu.op2.set(op2);
+
+
+                    System.out.println("functioncode: " + details.functionCode);
                     // Perform the ALU operation
-                    alu.doOperation(functionBits);
+                    alu.doOperation(details.functionCode);
+
+                    System.out.println("Math result: " + alu.result.getUnsigned());
+                    int result = (int) alu.result.getUnsigned();
 
                     // Store the result back into the destination register
-                    registers[details.rd].copy(alu.result);
+                    registers[details.rd].set(result);
+                    System.out.println("final rd details: " + registers[details.rd]);
 
                 }
 
@@ -153,7 +163,7 @@ public class Processor {
     // Decode methods for each format (1R, 2R, 3R)
     private static void decode1RInstruction(InstructionDetails details, String binaryString) {
         System.out.println("decode1RInstruction..");
-        // For 1R format: | format (2 bits) | immediate (16 bits) | function code (4 bits) | RD (5 bits) | opcode (5 bits) |
+        // For 1R format: | immediate (18 bits) | function code (4 bits) | RD (5 bits) | opcode (5 bits) |
         String rdBinary = binaryString.substring(22, 27);
         String functionCodeBinary = binaryString.substring(18, 22);
         String immediateBinary = binaryString.substring(0, 18);
@@ -175,10 +185,10 @@ public class Processor {
     private static void decode2RInstruction(InstructionDetails details, String binaryString) {
         System.out.println("decode2RInstruction..");
         // For 2R format: | immediate (13 bits) | Rs (5 bits) | function code (4 bits) | RD (5 bits) | opcode (5 bits) |
-        String rsBinary = binaryString.substring(13, 18);
-        String rdBinary = binaryString.substring(22, 27);
-        String functionCodeBinary = binaryString.substring(18, 22);
         String immediateBinary = binaryString.substring(0, 13);
+        String rsBinary = binaryString.substring(13, 18);
+        String functionCodeBinary = binaryString.substring(18, 22);
+        String rdBinary = binaryString.substring(22, 27);
 
 
         //Debugging purposes
@@ -198,11 +208,13 @@ public class Processor {
         System.out.println("decode3RInstruction.. ");
         // For 3R format: | immediate (8 bits) | Rs1 (5 bits) | Rs2 (5 bits) | Function (4 bits) | RD (5 bits) | Opcode (5 bits)
         // Decode 3R format instruction
+
+        String immediateBinary = binaryString.substring(0, 8);
         String rs1Binary = binaryString.substring(8, 13);
         String rs2Binary = binaryString.substring(13, 18);
-        String rdBinary = binaryString.substring(22, 27);
         String functionCodeBinary = binaryString.substring(18, 22);
-        String immediateBinary = binaryString.substring(0, 8);
+        String rdBinary = binaryString.substring(22, 27);
+
 
         details.rs1 = Integer.parseInt(rs1Binary, 2);
         details.rs2 = Integer.parseInt(rs2Binary, 2);

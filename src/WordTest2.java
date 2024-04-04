@@ -171,9 +171,18 @@ class WordTest2 {
         assertEquals(Integer.MIN_VALUE, word.getSigned(), "Signed value should be Integer.MIN_VALUE.");
     }
 
+    @Test
+    public void testDecrement() {
+        Word word = new Word();
+        // Set word to represent the value 1
+        word.set(5); // Binary representation of 1
 
+        word.decrement(); // Should change the word to represent the value 0
 
-    // Test Increment
+        // Check if the signed value is 0, which is expected after decrementing 1
+        assertEquals(4, word.getUnsigned(), "Signed value should be 0 after decrement.");
+    }
+
 
 
 

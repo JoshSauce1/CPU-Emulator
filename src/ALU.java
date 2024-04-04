@@ -127,12 +127,9 @@ public class ALU {
             // Update carry for the next iteration.
             carry = finalCarry;
         }
-
         // Since we're ignoring overflow, no need to handle bits beyond 32.
         return result; // Return the computed result.
     }
-
-
 
 
     //public for testing purposes
@@ -151,7 +148,6 @@ public class ALU {
         // Perform addition of a and the two's complement of b
         return add(a, complementB);
     }
-
 
 
     //public for testing purposes

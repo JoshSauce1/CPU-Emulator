@@ -171,6 +171,21 @@ public class Word {
         }
     }
 
+    public void decrement() {
+        Bit borrow = new Bit(true); // Start with a borrow of 1 for subtraction
+        for (int i = 0; i < 32; i++) {
+            // Flip the current bit if we have a borrow
+            Bit difference = bits[i].xor(borrow);
+            borrow = bits[i].not().and(borrow);
+            bits[i] = difference; // Update bit with the difference
+
+            if (!borrow.getValue()) {
+                break; // No more borrows, subtraction complete
+            }
+        }
+    }
+
+
     // Method to convert the Word object to a binary string representation
     public String toBinaryString() {
         StringBuilder binaryString = new StringBuilder();

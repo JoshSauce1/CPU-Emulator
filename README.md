@@ -1,4 +1,5 @@
 # Simple CPU Emulator
+This project implements a binary computing system in Java, consisting of classes to represent binary words, perform arithmetic and logical operations, and simulate a simple computing environment!
 
 ## Purpose:
  - Understand and compare assembly languages.

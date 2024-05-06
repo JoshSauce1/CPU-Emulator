@@ -23,7 +23,7 @@ The architexture docx file can be found here:
 ![SIA32 CPU Architecture](https://github.com/JoshSauce1/CPU-Emulator/blob/master/SIA32%20(3).pdf)
 
 ## Assembler
-Handcoding machine code can be rather tedious (trust me I know). So fix this, there is also an assembler to read assembly language that converts it to the corresponding machine code. It takes a txt file as input, then using the lexer turns it into tokens, then finally parses it into executable machine code.
+Handcoding machine code can be rather tedious (trust me I know). So to fix this, there is also an assembler to read assembly language that converts it to the corresponding machine code. It takes a txt file as input, then using the lexer turns it into tokens, then finally parses it into executable machine code.
 
 Here is an example assembly program and machine code!
 

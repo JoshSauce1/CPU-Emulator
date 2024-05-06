@@ -20,4 +20,4 @@ The provided text outlines the architecture of the SIA32 processor, including it
  - This architecture enables arithmetic, logical, branching, and memory operations, facilitating various computing tasks.
 
 The architexture docx file can be found below:
-![Architecture docx](https://github.com/JoshSauce1/CPU-Emulator/blob/master/SIA32.docx)
+![Architecture docx](https://github.com/JoshSauce1/CPU-Emulator/blob/master/SIA32%20(3).pdf)

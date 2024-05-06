@@ -20,7 +20,7 @@ The provided text outlines the architecture of the SIA32 processor, including it
  - This architecture enables arithmetic, logical, branching, and memory operations, facilitating various computing tasks.
 
 The architexture docx file can be found here:
-![Architecture docx](https://github.com/JoshSauce1/CPU-Emulator/blob/master/SIA32%20(3).pdf)
+![SIA32 CPU Architecture](https://github.com/JoshSauce1/CPU-Emulator/blob/master/SIA32%20(3).pdf)
 
 ## Assembler
 Handcoding machine code can be rather tedious (trust me I know), so I also made an assembler to read assembly language that converts it to the corresponding machine code. It takes a txt file as input, then using the lexer turns it into tokens, then finally parses it into executable machine code.

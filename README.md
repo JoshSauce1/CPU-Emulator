@@ -19,5 +19,23 @@ The provided text outlines the architecture of the SIA32 processor, including it
  - Definition Matrix: Specifies meanings of bit patterns for Math and Boolean operations.
  - This architecture enables arithmetic, logical, branching, and memory operations, facilitating various computing tasks.
 
-The architexture docx file can be found below:
+The architexture docx file can be found here:
 ![Architecture docx](https://github.com/JoshSauce1/CPU-Emulator/blob/master/SIA32%20(3).pdf)
+
+## Assembler
+Handcoding machine code can be rather tedious (trust me I know), so I also made an assembler to read assembly language that converts it to the corresponding machine code. It takes a txt file as input, then using the lexer turns it into tokens, then finally parses it into executable machine code.
+
+Here is an example assembly program and machine code!
+
+ - Assembly Program:
+COPY R1 10    
+COPY R2 20      
+MATH ADD R3 R1 R2
+HALT
+
+ - Machine Code:
+"00000000000000101000000000100001",
+"00000000000001010000000001000001",
+"00000000000010001011100001100011",
+"00000000000000000000000000000000"
+
